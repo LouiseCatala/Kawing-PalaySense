@@ -1,0 +1,12 @@
+(footprint "Wire_Header_1x2_P2.54mm" (version 20221018) (generator pcbnew) (layer "F.Cu")
+    (attr through_hole)
+    (fp_text reference "REF**" (at 0 -5) (layer "F.SilkS") (effects (font (size 1.1 1.1) (thickness 0.16))) (tstamp 3c912ca1-4403-4fa2-b22e-9f4d785e2d57))
+    (fp_text value "EXTERNAL SPST SWITCH" (at 0 5) (layer "F.Fab") (effects (font (size 0.9 0.9) (thickness 0.12))) (tstamp 18b020c5-9f7c-40f5-8bd8-d66dd5ec719d))
+    (fp_rect (start -2.25 -2) (end 2.25 4.54) (stroke (width 0.15) (type default)) (fill none) (layer "F.SilkS") (tstamp 38039243-bbb5-4f4b-ac17-cf5c8f279f8f))
+    (fp_text user "SW_IN" (at 5.4 0) (layer "F.SilkS") (effects (font (size 0.86 0.86) (thickness 0.12))) (tstamp 628b7ad5-8048-42fd-baf1-88d15818ed01))
+    (fp_text user "SW_OUT" (at 5.4 2.54) (layer "F.SilkS") (effects (font (size 0.86 0.86) (thickness 0.12))) (tstamp 307d74fa-020e-4764-80b7-cd084f3872e9))
+    (pad "1" thru_hole rect (at 0 0) (size 1.8 1.8) (drill 0.95) (layers "*.Cu" "*.Mask") (tstamp 5a2bd74d-a1ae-4c53-bc6e-6b81d8059dd7))
+    (pad "2" thru_hole circle (at 0 2.54) (size 1.8 1.8) (drill 0.95) (layers "*.Cu" "*.Mask") (tstamp 861e933a-0be8-4abd-a4ea-ba876f32a5ea))
+  
+    (model "${KIPRJMOD}/KAWING.3dshapes/Wire_Header_1x2_P2.54mm.wrl" (offset (xyz 0 0 0)) (scale (xyz 1 1 1)) (rotate (xyz 0 0 0)))
+)
