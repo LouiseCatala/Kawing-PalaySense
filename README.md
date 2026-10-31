@@ -3,16 +3,16 @@
 
 # KAWING PalaySense
 
-### ESP32-Based Grain Moisture Assessment and IoT Integration
+### The IoT-Based Grain Moisture Assessment Device of KAWING
 
-**A hardware prototype for assessing rice-grain moisture and transmitting readings to the KAWING post-harvest coordination platform.**
+**An ESP32-powered grain moisture assessment prototype integrated with the KAWING Web-Based Smart Post-Harvest Coordination Platform.**
 
 ![ESP32](https://img.shields.io/badge/ESP32-Microcontroller-E7352C?style=for-the-badge)
-![KiCad](https://img.shields.io/badge/KiCad-PCB_Design-314CB0?style=for-the-badge)
-![Arduino](https://img.shields.io/badge/Arduino-Firmware-00979D?style=for-the-badge)
-![IoT](https://img.shields.io/badge/IoT-WiFi_Enabled-00897B?style=for-the-badge)
+![Arduino](https://img.shields.io/badge/Arduino-C++-00979D?style=for-the-badge)
+![IoT](https://img.shields.io/badge/IoT-WiFi_Enabled-2563EB?style=for-the-badge)
+![Hardware](https://img.shields.io/badge/Hardware-Prototype-16A34A?style=for-the-badge)
 
-[Overview](#overview) • [Hardware](#hardware-components) • [PCB Design](#pcb-design--3d-preview) • [Getting Started](#getting-started)
+[Overview](#overview) • [Hardware](#hardware-components) • [Circuit Design](#circuit-design) • [Firmware](#firmware) • [Setup](#getting-started)
 
 </div>
 
@@ -20,238 +20,283 @@
 
 ## Overview
 
-**PalaySense** is the grain moisture assessment component of **KAWING (Knowledge-based Agricultural Workflow Integration Network Gateway)**, an IoT-integrated post-harvest coordination platform developed to support rice farmers in **Magalang, Pampanga, Philippines**.
+**KAWING PalaySense** is an Internet of Things (IoT) device developed as the grain moisture assessment component of **KAWING (Knowledge-based Agricultural Workflow Integration Network Gateway)**.
 
-The system utilizes an **ESP32 DevKit V1** and an **HW-390 V2.0.0 capacitive moisture sensor** to estimate rice grain moisture content.
+KAWING is an IoT-integrated, web-based smart post-harvest coordination platform designed to support rice farmers in **Magalang, Pampanga, Philippines**.
 
-Sensor readings are processed by the ESP32, converted into estimated moisture percentages using an adopted mathematical model, and classified according to predefined moisture thresholds.
+PalaySense combines an **ESP32 microcontroller** with an **HW-390 V2.0.0 capacitive moisture sensor** to estimate grain moisture content, classify moisture conditions, and transmit assessment results to the KAWING web platform.
 
-Through Wi-Fi connectivity, PalaySense can transmit the processed readings to the KAWING web platform using a REST API.
+By integrating hardware-based sensing with web-based information management, PalaySense aims to assist farmers in making informed post-harvest handling decisions.
 
-This repository contains the project's hardware design, electronic schematic, PCB layout, 3D models, and related documentation.
-
-> **Development Status:** Academic hardware prototype. Moisture measurement accuracy and PCB manufacturing readiness require further testing and validation.
+> **Project Status:** Academic prototype undergoing hardware testing, moisture calibration validation, and system integration.
 
 ---
 
-## PCB Design & 3D Preview
+## Project Objectives
 
-The PalaySense PCB was developed using **KiCad**, with the power management modules and ESP32 mounted on a single carrier board.
+PalaySense was developed to:
 
-### 3D PCB — Isometric View
-
-![KAWING PalaySense 3D PCB](KAWING_PalaySense_NO_R_C_FIXED_KiCad/KAWING_PalaySense_No_Extra_RC/3D_Assembly/KAWING_No_Extra_RC_Isometric.png)
-
-### 3D PCB — Top View
-
-![KAWING PalaySense PCB Top View](KAWING_PalaySense_NO_R_C_FIXED_KiCad/KAWING_PalaySense_No_Extra_RC/3D_Assembly/KAWING_No_Extra_RC_Top.png)
-
-### PCB Layout
-
-![KAWING PalaySense PCB Layout](KAWING_PalaySense_NO_R_C_FIXED_KiCad/KAWING_PalaySense_No_Extra_RC/PCB_Clean_Top_Layout.png)
-
-### Wiring Diagram
-
-![KAWING PalaySense Wiring Diagram](KAWING_PalaySense_NO_R_C_FIXED_KiCad/KAWING_PalaySense_No_Extra_RC/Wiring_Overview.png)
-
-**Design Features:**
-
-- Integrated ESP32 DevKit V1 mounting
-- Onboard TP4056 charging module
-- Onboard MT3608 boost converter
-- Integrated ON/OFF power switch
-- External moisture sensor connector
-- External rechargeable battery connection
-- Two-layer PCB design
-- Editable KiCad schematic and PCB layout
-- Custom 3D component models
-
-> The 3D models are illustrative. Actual component dimensions, mounting positions, and PCB clearances must be verified before manufacturing.
+1. Design an ESP32-based IoT device for estimating rice grain moisture content.
+2. Acquire analog sensor readings using a capacitive moisture sensor.
+3. Convert raw sensor readings into estimated moisture percentages.
+4. Classify grain moisture conditions based on predefined thresholds.
+5. Transmit sensor assessment results to the KAWING platform through Wi-Fi and a REST API.
+6. Integrate portable rechargeable power management for field-oriented operation.
 
 ---
 
-## Key Features
+## System Features
 
 | Feature | Description |
 |---|---|
-| Moisture Assessment | Estimates rice grain moisture content using an HW-390 capacitive sensor |
-| ESP32 Processing | Processes analog sensor data using a 12-bit ADC |
-| ADC Averaging | Averages 20 sensor readings to reduce fluctuations |
-| Moisture Classification | Categorizes readings into four moisture conditions |
-| Wi-Fi Connectivity | Enables communication with the KAWING platform |
-| REST API Integration | Transmits sensor readings as JSON |
-| Rechargeable Power | Uses a 3.7V Li-ion battery with a TP4056 charging module |
-| Voltage Regulation | Uses an MT3608 boost converter for 5V output |
-| PCB Integration | Combines the ESP32 and power modules on one PCB carrier |
+| Grain Moisture Assessment | Estimates grain moisture content using capacitive sensing |
+| ESP32 Processing | Processes sensor readings using a 12-bit ADC |
+| Sensor Averaging | Uses 20 samples per assessment |
+| Moisture Classification | Categorizes moisture readings into four conditions |
+| Wi-Fi Communication | Connects to an available wireless network |
+| REST API Integration | Sends processed readings to KAWING |
+| Rechargeable Power | Uses a 3.7V Li-ion battery |
+| Battery Charging | Incorporates a TP4056 charging module |
+| Voltage Boosting | Uses an MT3608 adjustable boost converter |
+| Power Control | Includes an ON/OFF switch |
 
 ---
 
-## Hardware Components
+## Circuit Design
 
-The PalaySense hardware uses the following components:
+The PalaySense electronic design consists of six main components connected to provide moisture sensing, processing, and portable power.
 
-| Component | Quantity | Purpose |
+The circuit uses:
+
+- ESP32 DevKit V1
+- HW-390 V2.0.0 Capacitive Moisture Sensor
+- TP4056 Li-ion Charging Module
+- MT3608 DC-DC Boost Converter
+- 3.7V Rechargeable Li-ion Battery
+- ON/OFF Switch
+
+The project uses its original `.paint` circuit design as the visual wiring reference.
+
+**Circuit connection overview:**
+
+```text
+  3.7V Li-ion Battery
+          |
+          v
+  TP4056 Charging Module
+          |
+          v
+      ON/OFF Switch
+          |
+          v
+  MT3608 Boost Converter
+      (5V Output)
+          |
+          v
+    ESP32 DevKit V1
+          |
+          v
+  HW-390 Moisture Sensor
+          |
+          | Analog Signal
+          v
+      ESP32 GPIO34
+          |
+          v
+  Moisture Data Processing
+          |
+          v
+     Wi-Fi Connection
+          |
+          v
+      KAWING REST API
+          |
+          v
+   KAWING Web Platform
+```
+
+This is a functional overview. The negative power connections share a common ground.
+
+### Hardware Connections
+
+#### HW-390 to ESP32
+
+| HW-390 Pin | ESP32 Connection | Function |
 |---|---|---|
-| ESP32 DevKit V1 | 1 | Main microcontroller and Wi-Fi communication |
-| HW-390 V2.0.0 Capacitive Sensor | 1 | Analog moisture sensing |
-| TP4056 Charging Module | 1 | Rechargeable battery charging and protection, if equipped |
-| MT3608 Boost Converter | 1 | Converts battery voltage to regulated 5V |
-| 3.7V Li-ion Battery | 1 | Portable power supply |
-| ON/OFF Switch | 1 | Controls device power |
-| Custom PCB | 1 | Mounts and connects the electronic modules |
-| Connectors and Wires | As required | Electrical interconnections |
-
-**Note:** No additional standalone resistors or capacitors were added to the carrier PCB. The existing ESP32, TP4056, and MT3608 modules contain their own internal electronic components.
-
----
-
-## Electrical Connections
-
-### HW-390 Sensor to ESP32
-
-| HW-390 Pin | ESP32 Pin | Function |
-|---|---|---|
-| VCC | 3V3 | Sensor power |
-| AOUT | GPIO34 | Analog moisture signal |
+| VCC | 3V3 | Sensor power supply |
+| AOUT | GPIO34 | Analog sensor output |
 | GND | GND | Common ground |
 
-### Power Management Connections
+#### Battery and Power Management
 
-| Component | Connection |
+| Component Pin | Connected To |
 |---|---|
-| Battery Positive | TP4056 B+ |
-| Battery Negative | TP4056 B- |
-| TP4056 OUT+ | ON/OFF switch input |
-| ON/OFF switch output | MT3608 IN+ |
+| Battery Positive (+) | TP4056 B+ |
+| Battery Negative (-) | TP4056 B- |
+| TP4056 OUT+ | ON/OFF Switch |
+| Switch Output | MT3608 IN+ |
 | TP4056 OUT- | MT3608 IN- |
 | MT3608 OUT+ | ESP32 VIN / 5V |
 | MT3608 OUT- | ESP32 GND |
 | ESP32 3V3 | HW-390 VCC |
 | ESP32 GPIO34 | HW-390 AOUT |
+| ESP32 GND | HW-390 GND |
 
-### Power Flow
+> **Important:** The MT3608 must be adjusted and verified at 5.0V before connecting it to the ESP32.
 
-```text
-       3.7V Li-ion Battery
-                |
-                v
-       TP4056 Charging Module
-                |
-                v
-          ON/OFF Switch
-                |
-                v
-       MT3608 Boost Converter
-                |
-                | 5V Output
-                v
-          ESP32 DevKit V1
-                |
-                | 3.3V Power
-                v
-       HW-390 Moisture Sensor
-                |
-                | Analog Output
-                v
-           GPIO34 ADC
-```
+The charger must also be compatible with the selected battery and provide appropriate protection. Basic TP4056 modules do not automatically support safe simultaneous charging and operation.
 
-The ESP32 uses its built-in Wi-Fi module to send processed sensor readings to the KAWING REST API.
+---
 
-**Important Safety Notes:**
+## Hardware Components
 
-- Adjust the MT3608 output to 5.0V before connecting the ESP32.
-- Verify voltage and polarity with a multimeter.
-- Use a suitable protected Li-ion charging arrangement.
-- The TP4056 module must support the intended battery protection and output connections.
-- Do not bypass battery protection circuitry.
-- Confirm the ESP32 board's external power compatibility.
+| Component | Qty. | Purpose |
+|---|---|---|
+| ESP32 DevKit V1 | 1 | Processing and Wi-Fi communication |
+| HW-390 V2.0.0 | 1 | Capacitive moisture sensing |
+| TP4056 Module | 1 | Rechargeable battery charging |
+| MT3608 Module | 1 | Battery voltage boosting |
+| 3.7V Li-ion Battery | 1 | Portable power supply |
+| ON/OFF Switch | 1 | Device power control |
+| Jumper Wires / Connectors | As needed | Electrical connections |
+| PCB Carrier | 1 | Component mounting and interconnection |
+
+The carrier design does not include additional standalone resistors or capacitors. Existing electronic components inside the commercial modules remain unchanged.
 
 ---
 
 ## How PalaySense Works
 
-The grain moisture assessment process consists of five main stages.
+### 1. Moisture Sensing
 
-### 1. Sensor Data Acquisition
+The HW-390 capacitive moisture sensor produces an analog signal affected by the electrical properties of the material surrounding its sensing area.
 
-The HW-390 capacitive moisture sensor produces an analog voltage that varies according to the sensor's response to the measured material.
+The sensor's analog output is connected to **ESP32 GPIO34**.
 
-The analog output is connected to the ESP32's GPIO34 pin.
+### 2. Sensor Data Acquisition
 
-### 2. Analog-to-Digital Conversion
+The ESP32 performs analog-to-digital conversion using a 12-bit ADC.
 
-The ESP32 uses its 12-bit Analog-to-Digital Converter (ADC) to obtain raw readings.
+The firmware collects **20 sensor samples** with a **10-millisecond delay** between samples.
 
-```cpp
-const int SENSOR_PIN = 34;
-const int ADC_RESOLUTION = 12;
-const int SENSOR_SAMPLES = 20;
-```
+The averaged ADC value is used for further processing.
 
-The ADC produces digital values ranging from 0 to 4095.
+### 3. Moisture Estimation
 
-The firmware averages 20 readings, with a 10-millisecond delay between samples.
+The firmware normalizes the 12-bit ADC reading into a 10-bit equivalent and applies an adopted conversion model based on Putri et al. (2023).
 
-### 3. Moisture Percentage Estimation
-
-The averaged ADC reading is processed using an adopted conversion model based on the work of Putri et al. (2023).
-
-The 12-bit ADC result is first normalized into a 10-bit equivalent.
+**ADC normalization:**
 
 ```text
 ADC10 = (ADC12 × 1023) / 4095
+```
 
+**Sensor correction:**
+
+```text
 CorrectedADC = ADC10 / 1.0054
+```
 
+**Moisture percentage calculation:**
+
+```text
 Moisture (%) = 100 - ((CorrectedADC / 898) × 100)
 ```
 
-The calculated result is constrained between 0% and 100%.
+The computed percentage is constrained between 0% and 100%.
 
-This formula serves as the prototype's adopted moisture estimation model.
+**Calibration Notice:** The conversion formula is an adopted estimation model. Its accuracy for the particular HW-390 sensor and rice grain samples must be verified against a calibrated reference moisture meter.
 
-> **Calibration Notice:** The use of a published conversion formula does not establish measurement accuracy for the specific HW-390 sensor. Reference moisture meter comparison and device-specific validation are required.
+### 4. Moisture Classification
 
-### 4. Grain Moisture Classification
+The calculated moisture percentage is classified according to the system's defined thresholds.
 
-After calculating the estimated moisture percentage, the system categorizes the result.
+| Moisture Content | Classification |
+|---|---|
+| Above 17% | Wet |
+| 15% – 17% | Moderate |
+| Above 11% but below 15% | Dry |
+| 11% and below | Risk of Grain Breakage |
 
-| Moisture Content | Classification | Interpretation |
-|---|---|---|
-| Above 17% | Wet | High moisture level |
-| 15% to 17% | Moderate | Intermediate moisture level |
-| Above 11% to below 15% | Dry | Lower moisture level |
-| 11% and below | Risk of Grain Breakage | Very low moisture level |
+These classifications help organize assessment results and provide preliminary post-harvest condition indicators.
 
-These classifications are defined within the KAWING prototype's firmware.
+### 5. IoT Data Transmission
 
-### 5. Data Transmission
+After determining the moisture percentage and classification, PalaySense prepares a JSON payload.
 
-After processing the moisture reading, the ESP32 sends the results to the KAWING REST API through Wi-Fi.
+The ESP32 sends the results to the KAWING backend through a REST API over Wi-Fi.
 
-The transmitted JSON structure includes:
+The assessment information can then be stored and retrieved by the KAWING web platform.
+
+---
+
+## IoT Integration with KAWING
+
+PalaySense operates as the hardware sensing component of the larger KAWING platform.
+
+### Integration Workflow
+
+```text
+Rice Grain Sample
+       |
+       v
+HW-390 Capacitive Sensor
+       |
+       v
+ESP32 Analog-to-Digital Converter
+       |
+       v
+Sensor Reading and Averaging
+       |
+       v
+Moisture Percentage Estimation
+       |
+       v
+Moisture Classification
+       |
+       v
+JSON Data Preparation
+       |
+       v
+ESP32 Wi-Fi Communication
+       |
+       v
+KAWING REST API
+       |
+       v
+KAWING Database
+       |
+       v
+KAWING Web-Based Platform
+       |
+       v
+Farmer Moisture Assessment Record
+```
+
+### Example JSON Payload
 
 ```json
 {
   "deviceId": "YOUR_DEVICE_ID",
   "sensorModel": "HW-390 V2.0.0",
-  "rawValue": 2500,
+  "rawValue": 3000,
   "calibrated": true,
-  "moisturePercentage": 30.00,
-  "classification": "Wet"
+  "moisturePercentage": 16.25,
+  "classification": "Moderate"
 }
 ```
 
-The JSON shown above is an illustrative format, not an actual sensor measurement. The `calibrated` field is retained for compatibility with the existing firmware and does not independently verify device calibration.
+*The values above are illustrative and do not represent a validated measurement.*
+
+The `calibrated` field is included for compatibility with the firmware's current API format. It should not be interpreted as evidence of completed physical calibration.
 
 ---
 
-## Firmware Overview
+## Firmware
 
-The ESP32 firmware was developed using the Arduino framework.
+The PalaySense firmware is developed in **Arduino C++** for the ESP32 microcontroller.
 
-### Required Libraries
+### Libraries
 
 ```cpp
 #include <WiFi.h>
@@ -260,23 +305,24 @@ The ESP32 firmware was developed using the Arduino framework.
 
 ### Firmware Configuration
 
-| Parameter | Configuration |
+| Setting | Value |
 |---|---|
 | Microcontroller | ESP32 |
 | Sensor | HW-390 V2.0.0 |
-| Analog Input | GPIO34 |
+| ADC Pin | GPIO34 |
 | ADC Resolution | 12-bit |
 | ADC Range | 0–4095 |
-| Samples per Reading | 20 |
+| Samples | 20 |
 | Sampling Delay | 10 ms |
-| Reading Interval | 5000 ms |
+| Assessment Interval | 5000 ms |
 | Wi-Fi Timeout | 20000 ms |
-| Communication | HTTP POST |
-| Data Format | JSON |
+| Serial Baud Rate | 115200 |
+| API Method | HTTP POST |
+| Payload Format | JSON |
 
-### Sensitive Configuration
+### Configuration Security
 
-The public firmware uses placeholders for private network and server information.
+The public firmware should use placeholder values for network and backend credentials.
 
 ```cpp
 const char* WIFI_SSID =
@@ -295,7 +341,9 @@ const char* DEVICE_ID =
   "YOUR_DEVICE_ID";
 ```
 
-**Security Reminder:** Never upload real Wi-Fi passwords, API keys, or confidential server information to a public repository. Configure these values privately before deployment. Use HTTPS for API communication where supported.
+Actual credentials should never be committed to a public GitHub repository.
+
+For deployments, HTTPS and secure credential management are recommended.
 
 ---
 
@@ -303,17 +351,16 @@ const char* DEVICE_ID =
 
 ### Requirements
 
-Before opening or testing the project, prepare:
-
-- KiCad PCB design software
-- Arduino IDE with ESP32 board support
 - ESP32 DevKit V1
-- HW-390 V2.0.0 capacitive moisture sensor
-- TP4056 charging module
-- MT3608 boost converter
-- 3.7V rechargeable Li-ion battery
+- HW-390 V2.0.0 Capacitive Moisture Sensor
+- TP4056 Charging Module
+- MT3608 Boost Converter
+- 3.7V Li-ion Battery
+- ON/OFF Switch
+- Arduino IDE
+- ESP32 Board Package
+- USB Programming Cable
 - Multimeter
-- USB cable and suitable wiring
 
 ### Step 1: Clone the Repository
 
@@ -323,210 +370,155 @@ git clone https://github.com/LouiseCatala/Kawing-PalaySense.git
 cd Kawing-PalaySense
 ```
 
-### Step 2: Open the KiCad Project
+### Step 2: Prepare the Hardware
 
-Navigate to:
+Connect the modules according to the circuit design.
 
-```text
-KAWING_PalaySense_NO_R_C_FIXED_KiCad/
-└── KAWING_PalaySense_No_Extra_RC/
-```
+Verify the following:
 
-Open:
+1. Battery polarity is correct.
+2. TP4056 connections match the module specifications.
+3. The boost converter output is regulated to 5.0V.
+4. ESP32 GND and sensor GND are connected.
+5. The HW-390 analog output is connected to GPIO34.
+6. The sensor receives the proper 3.3V supply.
 
-```text
-KAWING_PalaySense.kicad_pro
-```
+### Step 3: Prepare the Firmware
 
-You can then inspect and edit the schematic and PCB layout.
+Open the PalaySense `.ino` sketch in Arduino IDE.
 
-### Step 3: View the 3D PCB
+Configure your private:
 
-Inside KiCad:
+- Wi-Fi SSID
+- Wi-Fi password
+- KAWING REST API endpoint
+- API authentication key
+- Device identifier
 
-1. Open the PCB Editor.
-2. Select **View → 3D Viewer**.
-3. Alternatively, press `Alt + 3`.
-4. Enable the display of component 3D models.
+### Step 4: Configure Arduino IDE
 
-Keep the project's custom footprint and 3D model folders together.
+Select the appropriate ESP32 board and communication port.
 
-If VRML component models do not appear, try opening:
-
-```text
-KAWING_PalaySense_STEP_Alternative.kicad_pcb
-```
-
-This version provides STEP-based 3D model references.
-
-### Step 4: Prepare the Hardware
-
-1. Verify all power and sensor wiring.
-2. Connect the battery through the appropriate TP4056 connections.
-3. Set the MT3608 boost converter to 5.0V.
-4. Connect the regulated output to the ESP32 VIN/5V input.
-5. Connect the HW-390 sensor to GPIO34, 3V3, and GND.
-
-### Step 5: Upload the Firmware
-
-1. Open the PalaySense Arduino `.ino` file.
-2. Configure private Wi-Fi and backend credentials.
-3. Select the appropriate ESP32 board in Arduino IDE.
-4. Select the correct COM port.
-5. Compile and upload the sketch.
-
-### Step 6: Monitor Sensor Readings
-
-Open the Arduino Serial Monitor.
-
-Set the baud rate to:
+Typical settings:
 
 ```text
-115200
+Board: ESP32 Dev Module
+Port: Your ESP32 COM Port
+Baud Rate: 115200
 ```
 
-The device displays:
+Compile the sketch and upload it to the ESP32.
 
-- Raw ADC value
+### Step 5: Monitor the Device
+
+Open the Serial Monitor at **115200 baud**.
+
+The firmware reports:
+
+- Sensor model
+- Raw ADC reading
 - Estimated moisture percentage
 - Moisture classification
 - Wi-Fi connection status
-- HTTP response status
+- API response status
 
-A new sensor assessment is initiated approximately every five seconds, depending on network operations.
-
----
-
-## Repository Structure
-
-```text
-Kawing-PalaySense/
-│
-├── README.md
-│
-└── KAWING_PalaySense_NO_R_C_FIXED_KiCad/
-    │
-    └── KAWING_PalaySense_No_Extra_RC/
-        │
-        ├── KAWING_PalaySense.kicad_pro
-        ├── KAWING_PalaySense.kicad_sch
-        ├── KAWING_PalaySense.kicad_pcb
-        │
-        ├── KAWING_PalaySense_STEP_Alternative.kicad_pcb
-        ├── KAWING_PalaySense_No_Extra_RC.step
-        │
-        ├── KAWING.kicad_sym
-        ├── KAWING.pretty/
-        ├── KAWING.3dshapes/
-        │
-        ├── 3D_Assembly/
-        │   ├── KAWING_No_Extra_RC_Isometric.png
-        │   ├── KAWING_No_Extra_RC_Top.png
-        │   └── KAWING_PalaySense_No_Extra_RC.glb
-        │
-        ├── PCB_Clean_Top_Layout.png
-        ├── Wiring_Overview.png
-        └── README.md
-```
+Sensor acquisition is scheduled every five seconds, subject to network operations and processing delays.
 
 ---
 
 ## Testing and Validation
 
-The following activities are recommended before finalizing the hardware prototype.
+PalaySense requires testing to determine the reliability and accuracy of its moisture assessments.
 
-### Sensor Testing
+### Hardware Validation
 
-- Test repeatability across multiple sensor readings.
-- Compare measurements with a calibrated grain moisture meter.
-- Evaluate different grain moisture conditions.
-- Document measurement error and calibration results.
+- Verify component voltages and polarity.
+- Inspect the battery charging circuit.
+- Check boost converter output stability.
+- Test ON/OFF switch operation.
+- Confirm sensor-to-ESP32 continuity.
 
-### Hardware Testing
+### Sensor Validation
 
-- Verify battery charging operation.
-- Measure boost converter output voltage.
-- Inspect component polarity.
-- Verify ESP32 power stability.
-- Check sensor signal continuity.
+- Compare readings with a reference grain moisture meter.
+- Test different rice moisture conditions.
+- Record repeated measurements.
+- Evaluate sensor repeatability.
+- Determine measurement error.
+- Validate or adjust the moisture conversion model.
 
-### PCB Validation
+### IoT Validation
 
-- Run KiCad Electrical Rules Check (ERC).
-- Run KiCad Design Rules Check (DRC).
-- Verify component dimensions and mounting positions.
-- Inspect trace widths and copper clearances.
-- Confirm that the ESP32 antenna placement is appropriate.
-
-### Connectivity Testing
-
-- Verify Wi-Fi connection.
-- Test REST API communication.
-- Confirm expected server responses.
-- Validate JSON payload handling.
-- Verify that records are correctly processed by the KAWING backend.
+- Verify ESP32 Wi-Fi connection.
+- Test successful REST API transmission.
+- Confirm proper handling of failed requests.
+- Verify database storage of moisture readings.
+- Check the presentation of readings in the KAWING web platform.
 
 ---
 
-## Project Limitations
+## Limitations
 
-PalaySense is currently an academic prototype.
+This project is an academic IoT prototype and is subject to the following limitations:
 
-The following limitations must be considered:
-
-1. **Measurement Accuracy:** The adopted conversion model requires device-specific validation using a reference grain moisture instrument.
-2. **Mechanical Design:** PCB module footprints and 3D models must be checked against actual components.
-3. **Power Management:** The TP4056 module does not necessarily provide proper simultaneous charging and load-sharing functionality.
-4. **Network Dependency:** Sending readings to KAWING requires Wi-Fi connectivity and an accessible backend.
-5. **Manufacturing Readiness:** Electrical and mechanical checks must be completed before fabricating the PCB.
+1. **Sensor Calibration:** The adopted conversion equation requires physical validation with rice samples and reference measurements.
+2. **Sensor Suitability:** Capacitive soil moisture sensors may not accurately represent rice grain moisture without additional calibration and testing.
+3. **Internet Dependency:** The device requires network access to transmit readings to KAWING.
+4. **Battery Management:** Safe charging and simultaneous operation depend on the specific charging and protection circuitry used.
+5. **PCB Verification:** The PCB layout and component dimensions must undergo electrical and mechanical checks before manufacturing.
 
 ---
 
-## About KAWING
+## About the KAWING Platform
 
-**KAWING** stands for **Knowledge-based Agricultural Workflow Integration Network Gateway**.
+**KAWING** stands for:
 
-The complete project is titled:
+**Knowledge-based Agricultural Workflow Integration Network Gateway**
 
-**KAWING: An IoT-Integrated Web-Based Smart Post-Harvest Coordination Platform with Grain Moisture Assessment and Community Access Kiosk for Rice Farmers in Magalang, Pampanga.**
+### Full Research Title
 
-The platform aims to support rice farmers through post-harvest coordination, agricultural service access, information management, and moisture assessment integration.
+*KAWING: An IoT-Integrated Web-Based Smart Post-Harvest Coordination Platform with Grain Moisture Assessment and Community Access Kiosk for Rice Farmers in Magalang, Pampanga.*
 
-PalaySense serves as its dedicated IoT grain moisture assessment component.
+The platform supports post-harvest coordination through functions such as harvest information management, agricultural service coordination, marketplace-related activities, and moisture assessment integration.
+
+PalaySense contributes the IoT-based grain moisture assessment capability to the larger KAWING system.
 
 ---
 
-## Technology Stack
+## Technologies Used
 
 | Technology | Application |
 |---|---|
-| ESP32 | Embedded processing and communication |
-| Arduino / C++ | Firmware development |
-| HW-390 | Capacitive sensing |
-| Wi-Fi | Wireless connectivity |
-| REST API | Communication with KAWING |
-| JSON | Sensor data transmission |
-| KiCad | Electronic schematic and PCB design |
-| STEP / VRML | 3D electronic component visualization |
+| ESP32 | Embedded processing |
+| Arduino C++ | Device firmware |
+| HW-390 V2.0.0 | Capacitive moisture sensing |
+| Wi-Fi | Wireless communication |
+| REST API | Backend data transmission |
+| JSON | Sensor data representation |
+| TP4056 | Battery charging |
+| MT3608 | Voltage boosting |
+| KiCad | Schematic and PCB development |
 
 ---
 
 ## Disclaimer
 
-This repository is intended for academic research, learning, and hardware prototyping.
+KAWING PalaySense is intended for academic research, prototyping, and educational development.
 
-The moisture estimation model and PCB design should not be considered commercially certified or production-ready without appropriate validation, testing, and safety verification.
+Moisture estimates must be validated against appropriate grain moisture reference instruments before being used for critical agricultural decisions.
+
+The hardware design should not be considered manufacturing-ready without completing electrical, mechanical, and battery safety verification.
 
 ---
 
 <div align="center">
 
-### KAWING PalaySense
+## KAWING PalaySense
 
-**Smart Grain Moisture Assessment Through Embedded Systems and IoT**
+### The IoT Device of the KAWING Web-Based Smart Post-Harvest Coordination Platform
 
-*Part of the KAWING Smart Post-Harvest Coordination Platform*
+**Connecting embedded systems, grain moisture assessment, and agricultural information management.**
 
-Made for academic research and development.
+Developed as part of the KAWING academic research project.
 
 </div>
